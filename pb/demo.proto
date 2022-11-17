@@ -317,3 +317,25 @@ message DeleteFlagRequest {
 }
 
 message DeleteFlagResponse {}
+
+// // ------------Mailcheck service------------------
+// // Omitting for now due to issue compiling protoc on m1 macs. will fall back to rest/http
+
+// service MailcheckService {
+//     rpc CheckAddress(CheckAddressRequest) returns (CheckAddressResponse) {}
+//   }
+  
+//   message CheckAddressRequest {
+//     Mail mail = 1;
+//   }
+  
+//   message CheckAddressResponse {
+//     bool validMail = 1;
+//   }
+
+//   message Mail {
+//     string to = 1;
+//     string from = 2;
+//     string subject = 3;
+//     string body = 4;
+//   }

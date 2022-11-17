@@ -1,0 +1,28 @@
+[container.image]
+repository="k8s.io" # Docker hub repository name.
+name="mailcheckservice" # container name
+tag="latest"
+# https://ballerina.io/learn/deploy-ballerina-on-kubernetes/
+
+[cloud.deployment]
+min_memory="100Mi" # Minimum memory required for the container.
+max_memory="1024Mi" # Maximum memory a single container can take.
+min_cpu="500m"  # Minimum CPU required for the container.
+max_cpu="500m" # Maximum CPU a single container can take.
+
+[cloud.deployment.autoscaling]
+min_replicas=2 # Minimum number of container instances ran at a given time
+max_replicas=3 # Maximum number of replicas of the container can scale up to
+cpu=60 # Average CPU utilization of pods
+
+[[cloud.config.files]]
+file="./Config.toml" # Path of the external file
+
+# # Path of the file in the container
+# [cloud.deployment.probes.liveness]
+# port=9091
+# path="/probes/healthz"
+
+# [cloud.deployment.probes.readiness]
+# port=9091
+# path="/probes/readyz"
