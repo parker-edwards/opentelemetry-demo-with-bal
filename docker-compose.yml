@@ -160,10 +160,12 @@ services:
     environment:
       - APP_ENV=production
       - EMAIL_SERVICE_PORT
+      - MAILCHECK_SERVICE_ADDR
       - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otelcol:4318/v1/traces
       - OTEL_SERVICE_NAME=emailservice
     depends_on:
       - otelcol
+      - mailcheckservice
     logging: *logging
 
   # Frontend
@@ -495,7 +497,7 @@ services:
       - ./src/otelcollector/otelcol-config.yml:/etc/otelcol-config.yml
       - ./src/otelcollector/otelcol-config-extras.yml:/etc/otelcol-config-extras.yml
     ports:
-      - "4317"          # OTLP over gRPC receiver
+      - "4317:4317"          # OTLP over gRPC receiver
       - "4318:4318"     # OTLP over HTTP receiver
       - "9464"          # Prometheus exporter
       - "8888"          # metrics endpoint
@@ -584,3 +586,25 @@ services:
       - recommendationservice
       - shippingservice
       - quoteservice
+
+  mailcheckservice:
+    image: k8s.io/mailcheckservice
+    container_name: mailcheck-service
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    restart: always
+    ports:
+      - "${MAILCHECK_SERVICE_PORT}"
+    volumes:
+      - ./src/mailcheckservice/Config.toml:/home/ballerina/conf/Config.toml
+    environment:
+      - MAILCHECK_SERVICE_PORT
+      - BAL_CONFIG_FILES=/home/ballerina/conf/Config.toml
+      - JAEGER_PROPAGATION=w3c
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otelcol:4318/v1/traces
+      - OTEL_SERVICE_NAME=mailcheckservice
+    depends_on:
+      - otelcol
+    logging: *logging

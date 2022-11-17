@@ -16,14 +16,17 @@ require "ostruct"
 require "pony"
 require "sinatra"
 
+require 'uri'
+require 'net/http'
+
 require "opentelemetry/sdk"
 require "opentelemetry/exporter/otlp"
-require "opentelemetry/instrumentation/sinatra"
+require "opentelemetry/instrumentation/all"
 
 set :port, ENV["EMAIL_SERVICE_PORT"]
 
 OpenTelemetry::SDK.configure do |c|
-  c.use "OpenTelemetry::Instrumentation::Sinatra"
+  c.use_all()
 end
 
 post "/send_order_confirmation" do
@@ -34,13 +37,25 @@ post "/send_order_confirmation" do
   current_span.add_attributes({
     "app.order.id" => data.order.order_id,
   })
-
+  check_mail(data)
   send_email(data)
 
 end
 
 error do
   OpenTelemetry::Trace.current_span.record_exception(env['sinatra.error'])
+end
+
+def check_mail(data)
+  tracer = OpenTelemetry.tracer_provider.tracer('emailservice')
+  tracer.in_span("check_email") do |span|
+    uri = URI("http://#{ENV["MAILCHECK_SERVICE_ADDR"]}/checkmail")
+    res = Net::HTTP.post uri,
+      { "mailTo" => data.email, "mailFrom" => "noreply@example.com", "mailSubject" =>  "Your confirmation email"}.to_json,
+      "Content-Type" => "application/json"
+    span.set_attribute("mailcheck status", res.body)
+    puts "mail checker result: #{res.body}"
+  end
 end
 
 def send_email(data)

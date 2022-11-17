@@ -1,0 +1,32 @@
+[ballerina.log]
+level = "DEBUG"
+
+[[ballerina.log.modules]]
+name = "ballerinax/jaeger"
+level = "DEBUG"
+
+[[ballerina.log.modules]]
+name = "ballerinax/prometheus"
+level = "DEBUG"
+
+[[ballerina.log.modules]]
+name = "ballerina/observe"
+level = "DEBUG"
+
+[ballerina.observe]
+metricsEnabled=true
+metricsReporter="prometheus"
+tracingEnabled=true
+tracingProvider="jaeger"
+
+[ballerinax.jaeger]
+agentHostname="otelcol"
+agentPort=4317
+samplerType="const"
+samplerParam=1.0
+reporterFlushInterval=2000
+reporterBufferSize=1000
+
+[ballerinax.prometheus]
+port=9464
+host="0.0.0.0"
