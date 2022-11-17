@@ -6,10 +6,13 @@ This **forked** repository extends the "[**OpenTelemetry Astronomy Shop**](https
 a near real-world, microservice-based
 distributed system.
 
+
+## Prerequisites
+Find the `otelcol-config-extras.yml` file in the `/src/otelcollector/` filder. Replace `<lightstep_access_token>` on line 13 with an [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens) from your Lightstep project.
+
+2. 
+
 ## Quick start
-
-1. Find the `otelcol-config-extras.yml` file in the `/src/otelcollector/` filder. Replace `<lightstep_access_token>` on line 13 with an [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens) from your Lightstep project.
-
 
 ### Original deployment instructions
 You can be up and running with the demo in a few minutes. Check out the docs for
