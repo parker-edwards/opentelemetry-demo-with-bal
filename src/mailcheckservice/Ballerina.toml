@@ -1,9 +1,9 @@
 [package]
-org = "k8s_io"
+org = "parkeredwards"
 name = "mailcheckservice"
-version = "0.1.0"
+version = "0.1.1"
 distribution = "2201.2.3"
 
 [build-options]
 observabilityIncluded = true
-cloud="k8s"
+cloud="docker"

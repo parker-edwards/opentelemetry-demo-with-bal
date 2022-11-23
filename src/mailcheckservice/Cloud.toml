@@ -1,5 +1,5 @@
 [container.image]
-repository="k8s.io" # Docker hub repository name.
+repository="parkeredwards" # Docker hub repository name.
 name="mailcheckservice" # container name
 tag="latest"
 # https://ballerina.io/learn/deploy-ballerina-on-kubernetes/

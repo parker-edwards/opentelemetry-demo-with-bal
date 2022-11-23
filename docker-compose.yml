@@ -588,7 +588,7 @@ services:
       - quoteservice
 
   mailcheckservice:
-    image: k8s.io/mailcheckservice
+    image: parkeredwards/mailcheckservice
     container_name: mailcheck-service
     deploy:
       resources:

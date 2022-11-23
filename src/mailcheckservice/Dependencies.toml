@@ -333,7 +333,7 @@ modules = [
 ]
 
 [[package]]
-org = "k8s_io"
+org = "parkeredwards"
 name = "mailcheckservice"
 version = "0.1.0"
 dependencies = [
@@ -347,7 +347,7 @@ dependencies = [
 	{org = "ballerinax", name = "prometheus"}
 ]
 modules = [
-	{org = "k8s_io", packageName = "mailcheckservice", moduleName = "mailcheckservice"}
+	{org = "parkeredwards", packageName = "mailcheckservice", moduleName = "mailcheckservice"}
 ]
 
 
